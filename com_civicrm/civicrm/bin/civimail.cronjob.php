@@ -95,7 +95,7 @@ function run( ) {
     $config =& CRM_Core_Config::singleton(); 
 
     // this does not return on failure
-    CRM_Utils_System::authenticateScript( true );
+    CRM_Utils_System::authenticateScript( false );
 
     require_once 'CRM/Utils/System.php';
     CRM_Utils_System::loadBootStrap(  );
@@ -118,4 +118,3 @@ if ( php_sapi_name() == "cli" ) {
 } else  { //from the webserver
   run( );
 }
-

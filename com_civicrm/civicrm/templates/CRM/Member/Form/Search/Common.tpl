@@ -95,47 +95,6 @@
     </td> 
 </tr> 
 
-{* SNC Add tags and groups to Member search form *}
-<tr>
-        <td><label>{ts}Group(s){/ts}</label>
-    
-                {$form.group.html}
-                {literal}
-                <script type="text/javascript">
-                cj("select#group").crmasmSelect({
-                    addItemTarget: 'bottom',
-                    animate: false,
-                    highlight: true,
-                    sortable: true,
-                    respectParents: true
-                });
-
-                </script>
-                {/literal}
-            </td>
-</tr>
-
-<tr>
-            <td><label>{ts}Tag(s){/ts}</label>
-                {$form.contact_tags.html}
-                {literal}
-                <script type="text/javascript">
-
-                cj("select#contact_tags").crmasmSelect({
-                    addItemTarget: 'bottom',
-                    animate: false,
-                    highlight: true,
-                    sortable: true,
-                    respectParents: true
-                });
-
-
-                </script>
-                {/literal}   
-            </td>
-</tr>
-{* SNC Add tags and groups to Member search form *}
-
 {* campaign in membership search *}
 {include file="CRM/Campaign/Form/addCampaignToComponent.tpl" campaignContext="componentSearch" 
 campaignTrClass='' campaignTdClass=''}

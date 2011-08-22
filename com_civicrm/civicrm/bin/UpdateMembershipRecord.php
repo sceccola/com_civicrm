@@ -55,7 +55,7 @@ class CRM_UpdateMembershipRecord {
             $config = CRM_Core_Config::singleton();
            
             // this does not return on failure
-            CRM_Utils_System::authenticateScript( true );
+            CRM_Utils_System::authenticateScript( false );
             
             //log the execution time of script
             CRM_Core_Error::debug_log_message( 'UpdateMembershipRecord.php' );
@@ -75,8 +75,6 @@ class CRM_UpdateMembershipRecord {
 
     public function updateMembershipStatus( )
     {
-    
-        echo "Begin";
         require_once 'CRM/Member/BAO/MembershipLog.php';
         require_once 'CRM/Member/BAO/Membership.php';
         require_once 'CRM/Core/BAO/MessageTemplates.php';
@@ -88,13 +86,13 @@ class CRM_UpdateMembershipRecord {
         require_once 'CRM/Contact/BAO/Contact.php';
         require_once 'CRM/Activity/BAO/Activity.php';
         require_once 'CRM/Contribute/PseudoConstant.php';
-        echo "beg2";
+
         //get all active statuses of membership, CRM-3984
         $allStatus     = CRM_Member_PseudoConstant::membershipStatus( );
         $statusLabels  = CRM_Member_PseudoConstant::membershipStatus( null, null, 'label' );
         $allTypes      = CRM_Member_PseudoConstant::membershipType( );
         $contribStatus = CRM_Contribute_PseudoConstant::contributionStatus( null, 'name' );
-        echo "build query";
+        
         $query = "
 SELECT     civicrm_membership.id                    as membership_id,
            civicrm_membership.is_override           as is_override,
@@ -111,8 +109,8 @@ SELECT     civicrm_membership.id                    as membership_id,
            civicrm_membership.contribution_recur_id as recur_id
 FROM       civicrm_membership
 INNER JOIN civicrm_contact ON ( civicrm_membership.contact_id = civicrm_contact.id )
-WHERE      civicrm_membership.is_test = 0 ";
-        echo "get members";
+WHERE      civicrm_membership.is_test = 0";
+
         $params = array( );
         $dao =& CRM_Core_DAO::executeQuery( $query, $params );
         
@@ -201,6 +199,7 @@ WHERE      civicrm_membership.is_test = 0 ";
                 
                 // CRM-7248: added excludeIsAdmin param to the following fn call to prevent moving to admin statuses
                 //get the membership status as per id.
+                echo " Calling Calc";
                 $newStatus = civicrm_membership_status_calc( array( 'membership_id' => $dao->membership_id ), true );
                 $statusId  = CRM_Utils_Array::value( 'id', $newStatus );
                 
@@ -315,6 +314,6 @@ Message: {$msgTpl[$memType->renewal_msg_id]['details']}
 
 $obj = new CRM_UpdateMembershipRecord( );
 
-echo "\n Updating Membership Status ";
+echo "\n Updating ";
 $obj->updateMembershipStatus( );
 echo "\n\n Membership records updated. (Done) \n";

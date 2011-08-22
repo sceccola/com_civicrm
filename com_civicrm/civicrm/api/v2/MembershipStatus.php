@@ -221,6 +221,8 @@ function civicrm_membership_status_delete( &$params ) {
  */
 function civicrm_membership_status_calc( $membershipParams, $excludeIsAdmin = false )
 {
+   echo "In routine";
+ 
     if ( ! is_array( $membershipParams ) ) {
         return civicrm_create_error( ts( 'membershipParams is not an array' ) );
     }
@@ -272,7 +274,7 @@ SELECT start_date, end_date, join_date, contact_id
        				     echo " ";                                                        
                     }
             }
-           
+       
         //make is error zero only when valid status found.
         if ( CRM_Utils_Array::value( 'id', $result ) ) {
             $result['is_error'] = 0;
